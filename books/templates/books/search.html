@@ -1,0 +1,47 @@
+<html>
+<head>
+	{% load static %}
+	<link rel="stylesheet" type="text/css" href="{% get_static_prefix %}style.css">
+	<link rel="stylesheet" type="text/css" href="{% get_static_prefix %}bootstrap.css">
+	<title>{{q}} - Search</title>
+</head>
+<body>
+	{% include "books/header.html" %}
+		
+	<div class = "span9 well offset3">
+	{% if nores %}
+		<p>No result for <strong>{{q}}</strong>. Please check spelling and try again.</p>
+	{% else %}
+			<table class='table'>
+			<tr>
+			<th>Book</th>
+			<th>Author</th>
+			<th>Highest-Bid</th>
+			<th>Interaction</th>
+			{% for auc in auc_list %}
+			{% if auc.is_active %}
+			</tr>
+		        <td>{{auc.book.title}}</td>
+		        <td>{{auc.book.author}}</td>
+		        <td>
+		        	{%if auc.highest_bid.price %}
+			        	{{auc.highest_bid.price}}
+		        	{% else %}
+		        		no offer yet
+		        	{% endif %}
+		        </td>
+		        <td>
+		        {% if auc.seller.email == email %}
+		        	<a class='btn btn-link' href="/books/{{auc.id}}/close">VIEW / CLOSE</a>
+		        {% else %}
+			        <a class='btn btn-link' href="/books/{{auc.id}}/bid">VIEW / BID</a>
+		        {% endif %}
+		        </td>
+			</tr>
+			{% endif %}
+		    {% endfor %}
+		</table>
+	{% endif %}
+	</div>
+</body>
+</html>

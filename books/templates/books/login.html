@@ -1,0 +1,23 @@
+<html>
+<head>
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% get_static_prefix %}bootstrap.css">
+	
+</head>
+<body>
+	<div class="span5 offset5 well text-center" style="margin-top:200px">
+		<form action="." method="post">
+			{% csrf_token %}
+			<legend >Login to <em>BookMania</em></legend>
+			<input style="height:30px" class="span4" type = "text" placeholder="username" name = "username"></input><br>
+			<input style="height:30px" class="span4" type = "password" name ="password" placeholder="password"></input><br>
+			<input class="btn btn-primary btn-block" type= "submit" value = "login"></input>
+		</form>
+	</div>
+	{% if error%}
+	<div>
+		<p> <strong>Error</strong> : {{error}}</p>
+	</div>
+	{% endif %}
+</body>
+</html>

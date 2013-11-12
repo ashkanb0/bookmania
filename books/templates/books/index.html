@@ -1,0 +1,75 @@
+<html>
+<head>
+	{% load static %}
+	<link rel="stylesheet" type="text/css" href="{% get_static_prefix %}bootstrap.css">
+	<link rel="stylesheet" type="text/css" href="{% get_static_prefix %}style.css">
+</head>
+<body>
+	{% include "books/header.html" %}
+	<div class = "span9 well offset3">
+	<div >
+		<table class='table'>
+			<tr>
+			<th>Book</th>
+			<th>Author</th>
+			<th>Highest-Bid</th>
+			<th>Interaction</th>
+			{% for auc in auc_list %}
+			{% if auc.is_active %}
+			</tr>
+		        <td>{{auc.book.title}}</td>
+		        <td>{{auc.book.author}}</td>
+		        <td>
+		        	{%if auc.highest_bid.price %}
+			        	{{auc.highest_bid.price}}
+		        	{% else %}
+		        		no offer yet
+		        	{% endif %}
+		        </td>
+		        <td>
+		        {% if auc.seller.email == email %}
+		        	<a class='btn btn-link' href="/books/{{auc.id}}/close">VIEW / CLOSE</a>
+		        {% else %}
+			        <a class='btn btn-link' href="/books/{{auc.id}}/bid">VIEW / BID</a>
+		        {% endif %}
+		        </td>
+			</tr>
+			{% endif %}
+		    {% endfor %}
+		</table>
+	</div>
+	<div>
+		<a href="/books/create">Add a new Auction</a>
+	</div>
+	</div>
+	<div class="span3 well">
+
+		{% for msg in msgs %}
+			{% ifequal msg.msg_type 'SUCCESS' %}
+					<div class="well span2 alert alert-success">
+				{% if email == msg.seller.email %}
+					<p>You have selected <a href="/books/{{msg.buyer.email}}/profile">{{msg.buyer}}</a> for your auction on <strong>{{msg.book}}</strong>. Your rank has been increased.</p>
+				{% else %}
+					<p>You have been selected by <a href="/books/{{msg.seller.email}}/profile">{{msg.seller}}</a> for an auction on <strong>{{msg.book}}</strong>.</p>
+				{% endif %}
+					</div>
+			{% else%}
+				{% ifequal msg.msg_type 'ALERT' %}
+				<div class="well span2 alert">
+					<p>Your auction on <strong>{{msg.book}}</strong> is going to be expired within 48 hours from now. Please check on auction and close it.</p>
+				</div>
+				{% else %}
+				
+
+				<div class="well span2 alert alert-error">
+					<p>Your auction on <strong>{{msg.book}}</strong> has expired and you did not select a buyer. Your rank has been decreased.</p>
+				</div>
+
+			{% endifequal %}
+			{% endifequal %}
+		{% endfor %}
+	</div>
+	
+</body>
+
+</html>

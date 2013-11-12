@@ -1,0 +1,99 @@
+{% load dajaxice_templatetags %}
+{% dajaxice_js_import %}
+<html>
+<head>
+	{% load static %}
+	<link rel="stylesheet" type="text/css" href="{% get_static_prefix %}style.css">
+	<link rel="stylesheet" type="text/css" href="{% get_static_prefix %}bootstrap.css">
+	<title>{{book_name}}||Auction</title>
+</head>
+<body>
+	{% include "books/header.html" %}
+	<script type="text/javascript">
+		function bid_js(data){
+			$('#fail_msg').hide()
+			$('#succ_msg').hide()
+			
+			if(data.has_error=="Yes"){
+				$('#fail_msg').show().find('#message').html(data.message)
+			}else{
+				$('#succ_msg').show().find('#message').html(data.message)
+			}
+		}
+	</script>
+	<div class="span8 offset4 well">
+	{% if is_seller %}
+		<div class="alert alert-error">
+			<button  type="button" class="close closex" data-dismiss="alert">&times;</button>
+			<h3>Error</h3>
+			Apparently you are the seller of this auction, you will not be able to bid.
+		</div>
+	{% endif%}
+	<div class="span5 offset1 img-cntnr">
+		<img class="img-polaroid" src="/{{new_photo}}"/>
+	</div>
+	<div class="span12">
+	<p>
+		Book : {{book_name}} <br/>
+		Author : {{book_authname}} <br/>
+		Subject : {{book_subject}} <br/>
+		Edition : {{book_edition}} <br/>
+		Publish Year : {{book_pubyr}} <br/>
+	</p>
+	<p>
+		Seller : <a href="/books/{{seller_id}}/profile/">{{seller_name}}</a> <br/>
+		Rank : {{seller_rank}}
+	</p>
+	<p>
+		Minimum Price on auction : {{min_price}} <br/>
+		{% if max_bid %}
+			Maximum bid till the moment : {{max_bid.price}}
+		{% else %}
+			There is no offer for this auction yet.
+		{% endif %}
+		<br/>
+	</p>
+	<div class="offset1 form-cntnr">
+		<form id="cntrl" class="control-group info" action="" method="get">
+		
+			<input type="text" id="price" name="price" style="height:30px;margin-top:10px;" class="input-medium" placeholder="Minimum Bid:{{min_price}}">
+			<button id="button" type="submit" class="btn" onclick="Dajaxice.books.bid(bid_js,{'auc_id': {{auc_id}}, 'price': $('#price').val()  });">Bid</button>
+		</form>
+	</div>
+	<div id="min_price" hidden>{{min_price}}</div>
+	<script type="text/javascript">
+		var inp = $("#price")
+		var cnt = $("#cntrl")
+		var minpr = parseInt($("#min_price").html())
+		cnt.submit(function(evnt) {
+			evnt.preventDefault()
+		})
+		$("button").attr('disabled', "disabled");
+		inp.keyup(function(){
+			var pr = parseInt(inp.val())
+			if(pr>=minpr){
+				cnt.removeClass("info").removeClass("error").addClass("success")
+				$("button").removeAttr('disabled');
+			}else{
+				cnt.removeClass("info").removeClass("success").addClass("error")
+				$("button").attr('disabled', "disabled");
+			}
+		})
+	</script>
+	
+		<div id="fail_msg" class="span5 alert alert-error" hidden>
+			<button  type="button" class="close closex" data-dismiss="alert">&times;</button>
+			<h3>Error</h3>
+			<p id="message">alo</p>
+		</div>
+		<div id="succ_msg" class="span5 alert alert-success" hidden>
+			<button  type="button" class="close closex" data-dismiss="alert">&times;</button>
+			<h3>DONE!</h3>
+			<p id="message">alo</p>
+		</div>
+	
+	</div>
+
+	</div>
+</body>
+</html>

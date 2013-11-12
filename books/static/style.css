@@ -1,0 +1,23 @@
+.thumbnail{
+	height: 30px;
+	width: 30px;
+}
+
+.img-cntnr{
+	padding-bottom: 50px;
+}
+
+.form-cntnr{
+	margin-top: 30px;
+}
+
+input{
+	height: 30px;
+}
+
+#errorbox{
+	position: fixed;
+	top: 170px;
+	opacity: 0.59;
+}
+

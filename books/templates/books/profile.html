@@ -1,0 +1,38 @@
+{% load dajaxice_templatetags %}
+{% dajaxice_js_import %}
+<html>
+<head>
+	{% load static %}
+	<link rel="stylesheet" type="text/css" href="{% get_static_prefix %}style.css">
+	<link rel="stylesheet" type="text/css" href="{% get_static_prefix %}bootstrap.css">
+	<title>{{profile_name}}||ViewProfile</title>
+</head>
+<body>
+	{% include "books/header.html" %}
+	<div class="text-center span7 offset4 img-cntnr well">
+		<img class="img-rounded" src="/{{profile_photo}}"/>
+		<!-- <div class="span5 "> -->
+			<h6>{{profile_email}} <br/> </h6>
+		<!-- </div> -->
+	<div class="span6">
+		<table stylr="border:0px">
+			<thead>
+				<td class="span3"></td>
+				<td class="span3"></td>
+			</thead>
+			<tr>
+				<td> Name </td><td> {{profile_name}} <br/>  </td>
+				</tr>
+				<tr>
+				<td> Age  </td><td>{{profile_age}} <br/> </td>
+				</tr>
+				<tr>
+				
+				<td> Rank </td><td> {{profile_rank}} <br/>  </td>
+			</tr>
+		</table>
+	
+	</div>
+	</div>
+</body>
+</html>

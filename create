@@ -1,0 +1,5 @@
+************************************************** ritual
+sudo crontab -l
+sudo crontab -e
+**************************************************
+0 0 * * * /home/ashkan/Desktop/bookmania/check.sh >>/home/ashkan/Desktop/bookmania/log.txt 2>&1

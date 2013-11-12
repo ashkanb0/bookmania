@@ -1,0 +1,42 @@
+<html>
+<head>
+	{% load static %}
+	<link rel="stylesheet" type="text/css" href="{% get_static_prefix %}style.css">
+	<link rel="stylesheet" type="text/css" href="{% get_static_prefix %}bootstrap.css">
+	<title>AddAuction</title>
+</head>
+<body>
+	{% include "books/header.html" %}
+	<script type="text/javascript">
+		$(function(){
+			$("input").each(function(){
+				$(this).css('height','30px')
+			})
+			$(".errorlist").each(function(){
+				// $(this).next().append($(this))
+				$(this).insertAfter($(this).next()).addClass('unstyled').addClass('text-error')
+			})
+		})
+	</script>
+	<div class="span9 offset3 well">
+		<form enctype="multipart/form-data" action="/books/create/" method="post" >
+			{% csrf_token %}
+			{{form.as_p}}
+			<input type="submit" value="Add" class="btn btn-primary" />
+		</form>
+	</div>
+	<div id="errorbox" class="alert alert-error span7 offset4">
+		<button type="button" class="close closex">&times;</button>
+		<h3>Error</h3>
+		<p>
+		javascript is disabled!
+		</p>
+	</div>
+	<script type="text/javascript">
+		$("#errorbox").hide()
+		{%  if  hasError%}
+		$("#errorbox").find('p').html("{{error}}").parent().show(500)
+		{% endif %}
+	</script>
+</body>
+</html>

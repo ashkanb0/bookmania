@@ -1,0 +1,54 @@
+<div class = "navbar">
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.js">
+		
+	</script>
+	<div id="view" style="display:none;">{{view_name}}</div>
+	<div class = "navbar-inner">
+		
+		<a class="brand" href="#">Hello, {{name}}.</a>
+	<ul class= "nav span12">
+
+		<li id="home">
+			<a  href="/books/">Home</a>
+		</li>
+		<li id="bid">
+			<a  href="#">Bid</a>
+		</li>
+		<li id="close">
+			<a  href="#">Close</a>
+		</li>
+		<li id="create">
+			<a  href="/books/create">Create</a>
+		</li>
+		<li id="profile">
+			<a  href="/books/{{email}}/profile/">My Profile</a>
+		</li>
+		<script type="text/javascript">
+			$('#'+$('#view').html()).addClass('active')
+			$(function(){
+				$('.closex').click(function(){
+					$(this).parent().hide(500)
+				}).removeAttr('disabled')
+			})
+		</script>
+		
+		<form class="navbar-search text-center" action="/books/search/" method="POST">
+			{% csrf_token %}
+		  <input id="searchbar" type="text" class="search-query" name="q" placeholder="Title, Author">
+		</form>
+		<script type="text/javascript">
+			$('#searchbar').css('height','30px').css('margin-left','150px')
+		</script>
+
+	</ul>
+	<ul class="nav pull-right">
+		<li id="create">
+			<a  href="/books/logout">logout</a>
+		</li>
+		<li>
+		<img class="thumbnail" src="/{{pict}}">
+		</li>
+	</ul>
+	</div>
+
+</div>

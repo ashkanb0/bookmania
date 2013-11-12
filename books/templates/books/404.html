@@ -1,0 +1,15 @@
+<html>
+<head>
+	{% load static %}
+	<link rel="stylesheet" type="text/css" href="{% get_static_prefix %}bootstrap.css">
+	<link rel="stylesheet" type="text/css" href="{% get_static_prefix %}style.css">
+	<title>404|BookMania</title>
+</head>
+<body>
+	{% include "books/header.html" %}
+	<div class="span7 offset4 alert" style="margin-top:100px;">
+		<h3>404</h3>
+		Sorry {{name}}! It seems you have been misdirected to this url.<br><br><br><br>
+	</div>
+</body>
+</html>

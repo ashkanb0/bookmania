@@ -1,0 +1,70 @@
+{% load dajaxice_templatetags %}
+
+<html>
+<head>
+{% load static %}
+	<link rel="stylesheet" type="text/css" href="{% get_static_prefix %}bootstrap.css">
+	<link rel="stylesheet" type="text/css" href="{% get_static_prefix %}style.css">
+</head>
+<body>
+	{% dajaxice_js_import %}
+	{% include "books/header.html" %}
+	<script type="text/javascript">
+		$(function(){
+			$('.datacnt').each(function(){
+				$(this).find("a").hide().remove()
+				$(this).find('p').show()
+			})
+		})
+		function close_js(data){
+			$('#fail_msg').hide()
+			$('#succ_msg').hide()
+			
+			if(data.has_error=="Yes"){
+				$('#fail_msg').show().find('#message').html(data.message)
+			}else{
+				$('#succ_msg').show().find('#message').html(data.message)
+				$('.datacnt').find('p').html('no other interactions available!').removeAttr('onclick')
+			}
+		}
+	</script>	
+	<div class="span8 offset4 well">
+		{% if not_owner %}
+			<div class="span7 alert alert-error">
+				<h3>Error 403</h3>
+				<p>You do not have authority to view this auction.</p>
+			</div>
+		{% elif show_list %}
+		<table class="table">
+			<tr>
+				<th>Buyer</th>
+				<th>Offer</th>
+				<th>Interaction</th>
+			</tr>
+			{% for bid in bid_list %}
+			<tr>
+				<td><a href="/books/{{bid.buyer.email}}/profile">{{bid.buyer.name}}</a></td>
+				<td>{{bid.price}}</td>
+				<td class="datacnt">
+					<a href="/books/{{bid.buyer.email}}/accept">Select costumer and close auction</a>
+					<p class="btn btn-link" onclick="Dajaxice.books.close(close_js,{'auc_id': '{{auc.id}}', 'buyer_id': '{{bid.buyer.email}}'  });" hidden>Select costumer and close auction</p>			
+				</td>
+			</tr>
+			{% endfor %}
+		</table>
+		{% else %}
+		<p>No offer for your auction on book "<strong>{{book_name}}</strong>" has been registered.</p>
+		{% endif %}
+		<div id="fail_msg" class="span5 alert alert-error" hidden>
+			<button  type="button" class="close closex" data-dismiss="alert">&times;</button>
+			<h3>Error</h3>
+			<p id="message">alo</p>
+		</div>
+		<div id="succ_msg" class="span5 alert alert-success" hidden>
+			<button  type="button" class="close closex" data-dismiss="alert">&times;</button>
+			<h3>DONE!</h3>
+			<p id="message">alo</p>
+		</div>
+	</div>
+</body>
+</html>
