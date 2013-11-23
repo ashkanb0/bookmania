@@ -17,3 +17,9 @@ use
 and add the following line to check for closed auctions everyday on 00:00
 
 		0 0 * * * ~/Desktop/bookmania/check.sh >>~/Desktop/bookmania/log.txt 2>&1
+
+for ajax commands to work, install 
+
+		django-dajaxice
+		
+you can find it at: http://www.dajaxproject.com/
